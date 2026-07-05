@@ -34,6 +34,9 @@ jobs:
       - name: Download dependencies
         run: flutter pub get
 
+      - name: Generate Android platform files
+        run: flutter create . --platforms=android
+
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
