@@ -1,80 +1,102 @@
 # tai
 
-> Каркас Flutter-приложения с настроенными GitHub Actions (debug/release сборки).
+> **Tai** — приложение для общения и взаимодействием с ИИ. Чистый современный интерфейс в стиле Material You 3 Expressive.
 
+![platform](https://img.shields.io/badge/platform-android-3DDC84)
+![flutter](https://img.shields.io/badge/flutter-3.x-02569B)
+![license](https://img.shields.io/badge/license-MIT-blue)
 
-Минимальный каркас Flutter-приложения с настроенными GitHub Actions для сборки **debug** и **release** версий под Android.
+## ✨ Возможности
 
-## Структура проекта
+- 💬 **Чат с ИИ** — потоковая генерация ответа с эффектом «печатания».
+- 🗂 **Несколько диалогов** — создание, переключение и удаление чатов в боковом меню.
+- 🎨 **Material You 3 Expressive** — динамическая цветовая схема (seed), большие скругления, светлые/тёмные темы.
+- 📝 **Markdown** — ответы ИИ рендерятся с заголовками, списками и блоками кода.
+- 💡 **Подсказки** — быстрый старт диалога одним тапом.
+- 🌗 **Переключение темы** — светлая / тёмная / системная.
+
+## 🏗 Архитектура
 
 ```
-flutter_app_skeleton/
-├── .github/
-│   └── workflows/
-│       ├── build-debug.yml      # Сборка debug APK (+ проверка кода/тесты)
-│       └── build-release.yml    # Сборка release APK и AAB (+ GitHub Release)
-├── lib/
-│   └── main.dart                # Пустое приложение (костяк)
-├── analysis_options.yaml        # Правила линтера
-├── pubspec.yaml                 # Зависимости и метаданные
-└── README.md
+lib/
+├── main.dart                      # точка входа
+├── app.dart                       # MaterialApp, тема, переключатель тем
+├── theme/app_theme.dart           # Material 3 Expressive тема (seed-based)
+├── models/
+│   ├── chat_message.dart          # модель сообщения
+│   └── conversation.dart          # модель диалога
+├── services/
+│   └── ai_service.dart            # контракт ИИ + MockAiService (стриминг)
+├── state/
+│   └── chat_store.dart            # состояние чата (ChangeNotifier)
+├── screens/
+│   └── home_screen.dart           # главный экран
+└── widgets/
+    ├── tai_logo.dart              # фирменный «огонёк»
+    ├── message_bubble.dart        # бабл сообщения (+ Markdown)
+    ├── message_list_view.dart     # список сообщений
+    ├── chat_composer.dart         # поле ввода + кнопка отправки
+    ├── typing_indicator.dart      # анимация «печатает…»
+    ├── suggestion_chips.dart      # подсказки-промпты
+    ├── welcome_state.dart         # приветственный экран
+    └── conversations_drawer.dart  # боковое меню диалогов
 ```
 
-> ⚠️ В репозитории намеренно **отсутствуют** платформенные папки (`android/`, `ios/`, `web/`, `linux/`, `macos/`, `windows/`, `test/`). Они генерируются автоматически на шаге инициализации ниже (см. `.gitignore` — они не теряются, просто не хранятся здесь вручную).
+### Подключение реального ИИ
 
-## Быстрый старт
+Сейчас используется `MockAiService` — он подбирает ответ по ключевым словам.
+Чтобы подключить настоящую модель (OpenAI, Anthropic, Gemini, локальную LLM),
+реализуй интерфейс `AiService`:
 
-### 1. Установите Flutter
-Инструкция: https://docs.flutter.dev/get-started/install
+```dart
+class OpenAiService implements AiService {
+  @override
+  Stream<String> send(String prompt) async* {
+    // HTTP-запрос с потоковым парсингом SSE…
+    yield token;
+  }
+}
+```
 
-### 2. Инициализируйте платформенные папки
+и передай его в `TaiApp` (поля `aiService`). UI менять не нужно.
+
+## 🚀 Быстрый старт
 
 ```bash
-cd flutter_app_skeleton
-flutter create . --org com.example --project-name flutter_app_skeleton
+# 1. Установить Flutter: https://docs.flutter.dev/get-started/install
+# 2. Сгенерировать платформенные папки (android/ и т.д.)
+flutter create . --org com.example --project-name flutter_app_skeleton \
+  --platforms=android
+#   или просто: ./setup.sh
+
 flutter pub get
+flutter run
 ```
 
-Команда `flutter create .` создаст недостающие платформенные папки, не трогая ваши `pubspec.yaml`, `main.dart` и воркфлоусы.
-
-### 3. Запуск локально
+Сборка:
 
 ```bash
-flutter run              # debug-режим на подключённом устройстве/эмуляторе
 flutter build apk --debug
 flutter build apk --release
 flutter build appbundle --release
 ```
 
-## CI/CD (GitHub Actions)
+## 🤖 CI/CD (GitHub Actions)
 
-Воркфлоусы находятся в `.github/workflows/`.
+В `.github/workflows/`:
 
-### `build-debug.yml`
-- **Триггеры:** push/PR в `main` или `develop`, ручной запуск.
-- **Шаги:** установка Java 17 + Flutter (stable), `pub get`, проверка форматирования (`dart format`), `flutter analyze`, тесты, сборка debug APK.
-- **Артефакт:** `app-debug-apk` (хранение 14 дней).
+| Воркфлоу | Триггер | Что делает |
+|---|---|---|
+| `build-debug.yml` | push/PR в `main` | format + analyze + test + **debug APK** |
+| `build-release.yml` | тег `v*` / вручную | **release APK** + **AAB** + GitHub Release |
 
-### `build-release.yml`
-- **Триггеры:** push тега `v*` (например `v0.1.0`), ручной запуск.
-- **Шаги:** сборка release APK + App Bundle (AAB для Google Play).
-- **Артефакты:** `app-release-apk`, `app-release-aab` (хранение 30 дней).
-- **GitHub Release:** автоматически создаётся при пуше тега `v*` с приложенными APK и AAB.
+> Платформенные папки генерируются на раннере шагом `flutter create . --platforms=android`.
 
-### Запуск release-сборки вручную
+## 🔐 Безопасность
 
-```bash
-git tag v0.1.0
-git push origin v0.1.0
-```
-
-или через вкладку **Actions → Build Release → Run workflow** в репозитории.
-
-## Требования к окружению CI
-- Java 17 (Temurin)
-- Flutter stable (>= 3.22)
-- Runner: `ubuntu-latest`
+Ключи API **никогда** не должны попадать в репозиторий. Для реального ИИ
+используй `--dart-define` или секреты GitHub Actions.
 
 ---
 
-Чистый стартовый шаблон — добавляйте фичи, виджеты и зависимости по мере развития проекта.
+MIT License

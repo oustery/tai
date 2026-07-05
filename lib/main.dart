@@ -1,30 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-/// Точка входа в приложение.
-///
-/// Содержит минимальный пустой каркас:MaterialApp с пустым экраном.
-/// Используйте [runApp] для запуска корневого виджета.
+import 'package:flutter_app_skeleton/app.dart';
+
+/// Точка входа в приложение Tai.
 void main() {
-  runApp(const MyApp());
-}
-
-/// Корневой виджет приложения.
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter App Skeleton',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Пустое приложение'),
-        ),
-      ),
-    );
-  }
+  runApp(const TaiApp());
 }
