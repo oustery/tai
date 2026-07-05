@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_app_skeleton/theme/app_theme.dart';
+
 /// Поле ввода и кнопка отправки сообщения.
+///
+/// Кнопка отправки — кастомный круг с брендовым градиентом, плавно
+/// появляющийся при вводе текста через [AnimatedContainer].
 class ChatComposer extends StatefulWidget {
   const ChatComposer({
     super.key,
@@ -56,45 +61,108 @@ class _ChatComposerState extends State<ChatComposer> {
     return SafeArea(
       top: false,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+        padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
         decoration: BoxDecoration(
           color: scheme.surface,
           border: Border(
-            top:
-                BorderSide(color: scheme.outlineVariant.withValues(alpha: 0.5)),
+            top: BorderSide(
+              color: scheme.outlineVariant.withValues(alpha: 0.4),
+            ),
           ),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            // Текстовое поле в тональном контейнере
             Expanded(
-              child: TextField(
-                controller: _controller,
-                focusNode: _focus,
-                minLines: 1,
-                maxLines: 5,
-                textInputAction: TextInputAction.send,
-                onSubmitted: (_) => _submit(),
-                style: TextStyle(color: scheme.onSurface, fontSize: 15),
-                decoration: const InputDecoration(
-                  hintText: 'Спросите что-нибудь у Tai…',
-                  isCollapsed: false,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: scheme.surfaceContainerHigh,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: TextField(
+                  controller: _controller,
+                  focusNode: _focus,
+                  minLines: 1,
+                  maxLines: 5,
+                  textInputAction: TextInputAction.send,
+                  onSubmitted: (_) => _submit(),
+                  style: TextStyle(
+                    color: scheme.onSurface,
+                    fontSize: 15,
+                    height: 1.4,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: 'Спросите что-нибудь у Tai…',
+                    isCollapsed: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 14,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: BorderSide.none,
+                    ),
+                    hintStyle: TextStyle(
+                      color: scheme.onSurfaceVariant.withValues(alpha: 0.7),
+                      fontSize: 15,
+                    ),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 10),
+            // Кастомная кнопка отправки с брендовым градиентом
             Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: IconButton.filled(
-                onPressed: actionEnabled
-                    ? (widget.isGenerating ? widget.onStop : _submit)
-                    : null,
-                icon: Icon(
-                  widget.isGenerating
-                      ? Icons.stop_rounded
-                      : Icons.arrow_upward_rounded,
+              padding: const EdgeInsets.only(bottom: 2),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeOutCubic,
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  gradient:
+                      actionEnabled ? AppTheme.brandGradient(scheme) : null,
+                  color: actionEnabled ? null : scheme.surfaceContainerHigh,
+                  shape: BoxShape.circle,
+                  boxShadow: actionEnabled
+                      ? [
+                          BoxShadow(
+                            color: scheme.primary.withValues(alpha: 0.3),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ]
+                      : null,
                 ),
-                iconSize: 24,
+                child: Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.antiAlias,
+                  child: IconButton(
+                    onPressed: actionEnabled
+                        ? (widget.isGenerating ? widget.onStop : _submit)
+                        : null,
+                    icon: Icon(
+                      widget.isGenerating
+                          ? Icons.stop_rounded
+                          : Icons.arrow_upward_rounded,
+                      color: actionEnabled
+                          ? scheme.onPrimary
+                          : scheme.onSurfaceVariant,
+                      size: 22,
+                    ),
+                    tooltip: widget.isGenerating ? 'Остановить' : 'Отправить',
+                  ),
+                ),
               ),
             ),
           ],

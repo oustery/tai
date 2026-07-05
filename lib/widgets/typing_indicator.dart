@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_app_skeleton/theme/app_theme.dart';
 import 'package:flutter_app_skeleton/widgets/tai_logo.dart';
 
 /// Три «дышащих» точки — индикатор того, что Tai печатает ответ.
+///
+/// Точки используют фирмовый primary-цвет для большего брендинга.
 class TypingIndicator extends StatefulWidget {
   const TypingIndicator({super.key});
 
@@ -78,7 +81,8 @@ class _TypingIndicatorState extends State<TypingIndicator>
               width: 8,
               height: 8,
               decoration: BoxDecoration(
-                color: scheme.onSurfaceVariant.withValues(alpha: opacity),
+                // Фирмовый primary-цвет вместо onSurfaceVariant
+                color: scheme.primary.withValues(alpha: opacity * 0.7),
                 shape: BoxShape.circle,
               ),
             ),
