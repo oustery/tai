@@ -87,7 +87,10 @@ class _SuggestionChipsState extends State<SuggestionChips>
               borderRadius: BorderRadius.circular(18),
               onTap: () => widget.onTap(text),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 6,
+                  vertical: 10,
+                ),
                 child: Row(
                   children: [
                     // Иконка в мягком градиентном кружке
@@ -114,8 +117,11 @@ class _SuggestionChipsState extends State<SuggestionChips>
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 4),
-                      child: Icon(Icons.arrow_forward_rounded,
-                          size: 18, color: scheme.onSurfaceVariant),
+                      child: Icon(
+                        Icons.arrow_forward_rounded,
+                        size: 18,
+                        color: scheme.onSurfaceVariant,
+                      ),
                     ),
                   ],
                 ),

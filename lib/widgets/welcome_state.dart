@@ -37,7 +37,8 @@ class WelcomeState extends StatelessWidget {
                   'Привет! Я Tai',
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: Colors.white, // Цвет-заглушка: заменяется gradient shader
+                    color: Colors
+                        .white, // Цвет-заглушка: заменяется gradient shader
                   ),
                 ),
               ),

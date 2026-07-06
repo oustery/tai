@@ -86,11 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
         // AppBar статичен — не пересобирается при стриминге
         titleSpacing: 16,
         title: const Row(
-          children: [
-            TaiLogo(size: 34),
-            SizedBox(width: 12),
-            Text('Tai'),
-          ],
+          children: [TaiLogo(size: 34), SizedBox(width: 12), Text('Tai')],
         ),
         actions: [
           IconButton(
@@ -121,8 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   listenable: _store,
                   builder: (context, _) {
                     final conv = _store.current;
-                    final hasMsgs =
-                        conv != null && conv.messages.isNotEmpty;
+                    final hasMsgs = conv != null && conv.messages.isNotEmpty;
                     return hasMsgs
                         ? MessageListView(
                             messages: conv.messages,

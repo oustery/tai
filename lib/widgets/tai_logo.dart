@@ -25,8 +25,7 @@ class TaiLogo extends StatefulWidget {
   State<TaiLogo> createState() => _TaiLogoState();
 }
 
-class _TaiLogoState extends State<TaiLogo>
-    with SingleTickerProviderStateMixin {
+class _TaiLogoState extends State<TaiLogo> with SingleTickerProviderStateMixin {
   AnimationController? _controller;
 
   @override

@@ -58,8 +58,10 @@ class AppTheme {
           fontSize: 15,
           fontWeight: FontWeight.w400,
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(28),
           borderSide: BorderSide.none,
@@ -93,17 +95,13 @@ class AppTheme {
 
       // ── Chip ────────────────────────────────────────────────
       chipTheme: ChipThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       ),
 
       // ── Card ────────────────────────────────────────────────
       cardTheme: CardThemeData(
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         color: scheme.surfaceContainerLow,
       ),
 
@@ -141,18 +139,14 @@ class AppTheme {
 
       // ── FAB ─────────────────────────────────────────────────
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         elevation: 3,
         highlightElevation: 0,
       ),
 
       // ── SnackBar ────────────────────────────────────────────
       snackBarTheme: SnackBarThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         behavior: SnackBarBehavior.floating,
       ),
 
@@ -258,27 +252,24 @@ class AppTheme {
         height: 1.45,
         letterSpacing: 0.5,
       ),
-    ).apply(
-      bodyColor: scheme.onSurface,
-      displayColor: scheme.onSurface,
-    );
+    ).apply(bodyColor: scheme.onSurface, displayColor: scheme.onSurface);
   }
 
   /// Градиент фирменного «огонька» Tai — используется для аватара ИИ и
   /// активных элементов (кнопка отправки, акценты).
   static LinearGradient brandGradient(ColorScheme scheme) => LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [scheme.primary, scheme.tertiary],
-      );
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [scheme.primary, scheme.tertiary],
+  );
 
   /// Мягкий градиент для фоновых акцентов (иконки, декоративные элементы).
   static LinearGradient brandGradientSoft(ColorScheme scheme) => LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          scheme.primary.withValues(alpha: 0.12),
-          scheme.tertiary.withValues(alpha: 0.06),
-        ],
-      );
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      scheme.primary.withValues(alpha: 0.12),
+      scheme.tertiary.withValues(alpha: 0.06),
+    ],
+  );
 }

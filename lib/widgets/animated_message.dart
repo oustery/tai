@@ -6,11 +6,7 @@ import 'package:flutter/material.dart';
 /// Использует [TweenAnimationBuilder] — лёгковесный, без AnimationController,
 /// анимация проигрывается один раз при вставке в дерево.
 class AnimatedMessage extends StatelessWidget {
-  const AnimatedMessage({
-    super.key,
-    required this.child,
-    this.isUser = false,
-  });
+  const AnimatedMessage({super.key, required this.child, this.isUser = false});
 
   final Widget child;
   final bool isUser;

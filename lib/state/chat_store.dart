@@ -114,20 +114,22 @@ class ChatStore extends ChangeNotifier {
     conv.messages.add(assistant);
     notifyListeners();
 
-    _sub = _ai.send(text).listen(
-      (chunk) {
-        assistant.text += chunk;
-        notifyListeners();
-      },
-      onDone: () {
-        assistant.isStreaming = false;
-        assistant.text = assistant.text.trimRight();
-        conv.updatedAt = DateTime.now();
-        _sub = null;
-        notifyListeners();
-      },
-      cancelOnError: true,
-    );
+    _sub = _ai
+        .send(text)
+        .listen(
+          (chunk) {
+            assistant.text += chunk;
+            notifyListeners();
+          },
+          onDone: () {
+            assistant.isStreaming = false;
+            assistant.text = assistant.text.trimRight();
+            conv.updatedAt = DateTime.now();
+            _sub = null;
+            notifyListeners();
+          },
+          cancelOnError: true,
+        );
   }
 
   /// Останавливает текущую генерацию.

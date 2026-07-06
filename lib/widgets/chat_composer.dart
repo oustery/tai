@@ -129,8 +129,9 @@ class _ChatComposerState extends State<ChatComposer> {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  gradient:
-                      actionEnabled ? AppTheme.brandGradient(scheme) : null,
+                  gradient: actionEnabled
+                      ? AppTheme.brandGradient(scheme)
+                      : null,
                   color: actionEnabled ? null : scheme.surfaceContainerHigh,
                   shape: BoxShape.circle,
                   boxShadow: actionEnabled

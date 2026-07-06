@@ -25,14 +25,12 @@ class MessageBubble extends StatelessWidget {
     final bubble = Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
-        mainAxisAlignment:
-            isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: isUser
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          if (!isUser) ...[
-            const TaiLogo(size: 30),
-            const SizedBox(width: 8),
-          ],
+          if (!isUser) ...[const TaiLogo(size: 30), const SizedBox(width: 8)],
           Flexible(
             child: Container(
               constraints: BoxConstraints(
@@ -84,10 +82,7 @@ class MessageBubble extends StatelessWidget {
     // анимация перезапускалась бы на каждом кадре, вызывая джанк.
     if (message.isStreaming) return bubble;
 
-    return AnimatedMessage(
-      isUser: isUser,
-      child: bubble,
-    );
+    return AnimatedMessage(isUser: isUser, child: bubble);
   }
 
   MarkdownStyleSheet _markdownStyle(ThemeData theme) {
@@ -162,10 +157,7 @@ class _CopyButtonState extends State<_CopyButton> {
             const SizedBox(width: 4),
             Text(
               _copied ? 'Скопировано' : 'Копировать',
-              style: TextStyle(
-                fontSize: 12,
-                color: scheme.onSurfaceVariant,
-              ),
+              style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
             ),
           ],
         ),

@@ -84,8 +84,10 @@ class ConversationsDrawer extends StatelessWidget {
                     );
                   }
                   return ListView.separated(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 8,
+                    ),
                     itemCount: items.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 2),
                     itemBuilder: (context, index) {
@@ -182,8 +184,7 @@ class _ConversationTile extends StatelessWidget {
                       color: selected
                           ? scheme.onSecondaryContainer
                           : scheme.onSurface,
-                      fontWeight:
-                          selected ? FontWeight.w600 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
                     ),
                   ),
                 ),
