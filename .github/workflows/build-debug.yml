@@ -1,22 +1,28 @@
-name: Build Debug
+name: Debug
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
-    branches: [main, develop]
+    branches: [main]
   workflow_dispatch:
 
+# Отменять предыдущий запуск для той же ветки/PR — нет смысла
+# собирать устаревший коммит, если уже пушнули новый.
+concurrency:
+  group: debug-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build-debug:
-    name: Build Debug APK
+  debug:
+    name: Lint → Test → Build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -28,28 +34,30 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Print Flutter version
-        run: flutter --version
+      # ── Быстые проверки (не нужны зависимости) ──────────────
 
-      - name: Download dependencies
-        run: flutter pub get
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
 
-      - name: Generate Android platform files
+      # ── Зависимости + платформенные файлы ───────────────────
+
+      - name: Generate platform files & resolve deps
         run: flutter create . --platforms=android
 
-      - name: Verify formatting
-        run: dart format --output=none .
+      # ── Проверки, требующие зависимости ─────────────────────
 
-      - name: Analyze project
+      - name: Analyze
         run: flutter analyze
 
-      - name: Run tests
+      - name: Test
         run: flutter test
+
+      # ── Сборка (только если всё выше прошло) ───────────────
 
       - name: Build debug APK
         run: flutter build apk --debug
 
-      - name: Upload debug APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
