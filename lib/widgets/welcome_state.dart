@@ -31,14 +31,16 @@ class WelcomeState extends StatelessWidget {
               // Заголовок с брендовым градиентом
               ShaderMask(
                 blendMode: BlendMode.srcIn,
-                shaderCallback: (bounds) =>
-                    AppTheme.brandGradient(scheme).createShader(bounds),
+                shaderCallback:
+                    (bounds) =>
+                        AppTheme.brandGradient(scheme).createShader(bounds),
                 child: Text(
                   'Привет! Я Tai',
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: Colors
-                        .white, // Цвет-заглушка: заменяется gradient shader
+                    color:
+                        Colors
+                            .white, // Цвет-заглушка: заменяется gradient shader
                   ),
                 ),
               ),

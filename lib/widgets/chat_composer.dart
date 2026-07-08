@@ -129,36 +129,38 @@ class _ChatComposerState extends State<ChatComposer> {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  gradient: actionEnabled
-                      ? AppTheme.brandGradient(scheme)
-                      : null,
+                  gradient:
+                      actionEnabled ? AppTheme.brandGradient(scheme) : null,
                   color: actionEnabled ? null : scheme.surfaceContainerHigh,
                   shape: BoxShape.circle,
-                  boxShadow: actionEnabled
-                      ? [
-                          BoxShadow(
-                            color: scheme.primary.withValues(alpha: 0.3),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                          ),
-                        ]
-                      : null,
+                  boxShadow:
+                      actionEnabled
+                          ? [
+                            BoxShadow(
+                              color: scheme.primary.withValues(alpha: 0.3),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                          ]
+                          : null,
                 ),
                 child: Material(
                   color: Colors.transparent,
                   shape: const CircleBorder(),
                   clipBehavior: Clip.antiAlias,
                   child: IconButton(
-                    onPressed: actionEnabled
-                        ? (widget.isGenerating ? widget.onStop : _submit)
-                        : null,
+                    onPressed:
+                        actionEnabled
+                            ? (widget.isGenerating ? widget.onStop : _submit)
+                            : null,
                     icon: Icon(
                       widget.isGenerating
                           ? Icons.stop_rounded
                           : Icons.arrow_upward_rounded,
-                      color: actionEnabled
-                          ? scheme.onPrimary
-                          : scheme.onSurfaceVariant,
+                      color:
+                          actionEnabled
+                              ? scheme.onPrimary
+                              : scheme.onSurfaceVariant,
                       size: 22,
                     ),
                     tooltip: widget.isGenerating ? 'Остановить' : 'Отправить',
