@@ -168,10 +168,9 @@ class _ConversationTile extends StatelessWidget {
               Icon(
                 Icons.chat_bubble_outline_rounded,
                 size: 20,
-                color:
-                    selected
-                        ? scheme.onSecondaryContainer
-                        : scheme.onSurfaceVariant,
+                color: selected
+                    ? scheme.onSecondaryContainer
+                    : scheme.onSurfaceVariant,
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -182,10 +181,9 @@ class _ConversationTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color:
-                          selected
-                              ? scheme.onSecondaryContainer
-                              : scheme.onSurface,
+                      color: selected
+                          ? scheme.onSecondaryContainer
+                          : scheme.onSurface,
                       fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
                     ),
                   ),

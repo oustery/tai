@@ -25,8 +25,9 @@ class MessageBubble extends StatelessWidget {
     final bubble = Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
-        mainAxisAlignment:
-            isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: isUser
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isUser) ...[const TaiLogo(size: 30), const SizedBox(width: 8)],
@@ -37,10 +38,9 @@ class MessageBubble extends StatelessWidget {
               ),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color:
-                    isUser
-                        ? scheme.primaryContainer
-                        : scheme.surfaceContainerHigh,
+                color: isUser
+                    ? scheme.primaryContainer
+                    : scheme.surfaceContainerHigh,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(20),
                   topRight: const Radius.circular(20),
@@ -48,31 +48,30 @@ class MessageBubble extends StatelessWidget {
                   bottomRight: Radius.circular(isUser ? 6 : 20),
                 ),
               ),
-              child:
-                  isUser
-                      ? Text(
-                        message.text,
-                        style: TextStyle(
-                          color: scheme.onPrimaryContainer,
-                          fontSize: 15,
-                          height: 1.45,
-                        ),
-                      )
-                      : Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          MarkdownBody(
-                            data: message.text,
-                            styleSheet: _markdownStyle(theme),
-                          ),
-                          // Кнопка «Копировать» появляется после завершения стриминга
-                          if (!message.isStreaming && message.text.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 6),
-                              child: _CopyButton(text: message.text),
-                            ),
-                        ],
+              child: isUser
+                  ? Text(
+                      message.text,
+                      style: TextStyle(
+                        color: scheme.onPrimaryContainer,
+                        fontSize: 15,
+                        height: 1.45,
                       ),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        MarkdownBody(
+                          data: message.text,
+                          styleSheet: _markdownStyle(theme),
+                        ),
+                        // Кнопка «Копировать» появляется после завершения стриминга
+                        if (!message.isStreaming && message.text.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6),
+                            child: _CopyButton(text: message.text),
+                          ),
+                      ],
+                    ),
             ),
           ),
         ],

@@ -120,9 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     final hasMsgs = conv != null && conv.messages.isNotEmpty;
                     return hasMsgs
                         ? MessageListView(
-                          messages: conv.messages,
-                          controller: _scrollController,
-                        )
+                            messages: conv.messages,
+                            controller: _scrollController,
+                          )
                         : WelcomeState(onSuggestion: _store.send);
                   },
                 ),
