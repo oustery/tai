@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_app_skeleton/theme/app_theme.dart';
 import 'package:flutter_app_skeleton/widgets/tai_logo.dart';
 
 /// Три «дышащих» точки — индикатор того, что Tai печатает ответ.

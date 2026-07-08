@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: 76,
               right: 16,
               child: TweenAnimationBuilder<double>(
-                tween: const Tween(begin: 0.0, end: 1.0),
+                tween: Tween(begin: 0.0, end: 1.0),
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.easeOutCubic,
                 builder: (context, value, child) {

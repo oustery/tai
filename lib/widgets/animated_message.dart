@@ -17,7 +17,7 @@ class AnimatedMessage extends StatelessWidget {
     final dx = isUser ? 0.06 : -0.06;
 
     return TweenAnimationBuilder<double>(
-      tween: const Tween(begin: 0.0, end: 1.0),
+      tween: Tween(begin: 0.0, end: 1.0),
       duration: const Duration(milliseconds: 350),
       curve: Curves.easeOutCubic,
       builder: (context, value, child) {
