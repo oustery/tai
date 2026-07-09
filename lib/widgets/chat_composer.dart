@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_app_skeleton/theme/app_theme.dart';
-
 /// Поле ввода и кнопка отправки сообщения.
 ///
-/// Кнопка отправки — кастомный круг с брендовым градиентом, плавно
-/// появляющийся при вводе текста через [AnimatedContainer].
+/// Claude Dark Minimal: плоское поле без границ, отправка — простой
+/// заполненный круг (primary при активности, surfaceContainerHigh иначе).
+/// Без градиентов и теней.
 class ChatComposer extends StatefulWidget {
   const ChatComposer({
     super.key,
@@ -63,7 +62,7 @@ class _ChatComposerState extends State<ChatComposer> {
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
         decoration: BoxDecoration(
-          color: scheme.surface,
+          color: Theme.of(context).scaffoldBackgroundColor,
           border: Border(
             top: BorderSide(
               color: scheme.outlineVariant.withValues(alpha: 0.4),
@@ -73,7 +72,7 @@ class _ChatComposerState extends State<ChatComposer> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // Текстовое поле в тональном контейнере
+            // Текстовое поле — плоское, без границ
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
@@ -93,7 +92,7 @@ class _ChatComposerState extends State<ChatComposer> {
                     height: 1.4,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Спросите что-нибудь у Tai…',
+                    hintText: 'Спросите что-нибудь у Tai\u2026',
                     isCollapsed: true,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 20,
@@ -120,7 +119,7 @@ class _ChatComposerState extends State<ChatComposer> {
               ),
             ),
             const SizedBox(width: 10),
-            // Кастомная кнопка отправки с брендовым градиентом
+            // Кнопка отправки — простой круг
             Padding(
               padding: const EdgeInsets.only(bottom: 2),
               child: AnimatedContainer(
@@ -129,19 +128,10 @@ class _ChatComposerState extends State<ChatComposer> {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  gradient:
-                      actionEnabled ? AppTheme.brandGradient(scheme) : null,
-                  color: actionEnabled ? null : scheme.surfaceContainerHigh,
+                  color: actionEnabled
+                      ? scheme.primary
+                      : scheme.surfaceContainerHigh,
                   shape: BoxShape.circle,
-                  boxShadow: actionEnabled
-                      ? [
-                          BoxShadow(
-                            color: scheme.primary.withValues(alpha: 0.3),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                          ),
-                        ]
-                      : null,
                 ),
                 child: Material(
                   color: Colors.transparent,

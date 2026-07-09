@@ -6,8 +6,7 @@ import 'package:flutter_app_skeleton/theme/app_theme.dart';
 
 /// Корневой виджет приложения Tai.
 ///
-/// Настраивает Material 3 тему (светлую и тёмную), переключение темевой схемы
-/// и размещает [HomeScreen] в качестве стартового экрана.
+/// Claude Dark Minimal: тёмная тема по умолчанию, переключение доступно.
 class TaiApp extends StatefulWidget {
   const TaiApp({super.key});
 
@@ -16,10 +15,8 @@ class TaiApp extends StatefulWidget {
 }
 
 class _TaiAppState extends State<TaiApp> {
-  ThemeMode _themeMode = ThemeMode.system;
+  ThemeMode _themeMode = ThemeMode.dark;
 
-  /// Экземпляр ИИ-сервиса создаётся один раз и переживает перестроения
-  /// виджета (например, при переключении темы).
   final AiService _ai = MockAiService();
 
   bool get _isDark {
@@ -43,7 +40,7 @@ class _TaiAppState extends State<TaiApp> {
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: _themeMode,
-      themeAnimationDuration: const Duration(milliseconds: 400),
+      themeAnimationDuration: const Duration(milliseconds: 300),
       home: HomeScreen(
         aiService: _ai,
         isDark: _isDark,

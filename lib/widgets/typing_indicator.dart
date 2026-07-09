@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_app_skeleton/widgets/tai_logo.dart';
-
 /// Три «дышащих» точки — индикатор того, что Tai печатает ответ.
 ///
-/// Точки используют фирмовый primary-цвет для большего брендинга.
+/// Claude Dark Minimal: точки используют onSurfaceVariant для
+/// ненавязчивого вида. Без аватара.
 class TypingIndicator extends StatefulWidget {
   const TypingIndicator({super.key});
 
@@ -37,29 +36,24 @@ class _TypingIndicatorState extends State<TypingIndicator>
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          const TaiLogo(size: 30),
-          const SizedBox(width: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-            decoration: BoxDecoration(
-              color: scheme.surfaceContainerHigh,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-                bottomRight: Radius.circular(6),
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: List.generate(_dotCount, (i) => _dot(i, scheme)),
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+          decoration: BoxDecoration(
+            color: scheme.surfaceContainerHigh,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+              bottomRight: Radius.circular(6),
             ),
           ),
-        ],
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(_dotCount, (i) => _dot(i, scheme)),
+          ),
+        ),
       ),
     );
   }
@@ -68,22 +62,16 @@ class _TypingIndicatorState extends State<TypingIndicator>
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, _) {
-        // Каждая точка «взлетает» со сдвигом по фазе.
         final t = (_controller.value + index / _dotCount) % 1.0;
-        final scale = 0.6 + 0.4 * (0.5 - (t - 0.5).abs() * 2).abs();
         final opacity = 0.4 + 0.6 * (0.5 - (t - 0.5).abs() * 2).abs();
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 3),
-          child: Transform.scale(
-            scale: scale,
-            child: Container(
-              width: 8,
-              height: 8,
-              decoration: BoxDecoration(
-                // Фирмовый primary-цвет вместо onSurfaceVariant
-                color: scheme.primary.withValues(alpha: opacity * 0.7),
-                shape: BoxShape.circle,
-              ),
+          child: Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(
+              color: scheme.onSurfaceVariant.withValues(alpha: opacity),
+              shape: BoxShape.circle,
             ),
           ),
         );

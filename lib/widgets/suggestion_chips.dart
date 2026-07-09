@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_app_skeleton/theme/app_theme.dart';
-
 /// Подсказки-промпты для быстрого старта диалога.
 ///
-/// Каждая карточка появляется с каскадной задержкой (staggered animation)
-/// и содержит иконку в мягком градиентном кружке для визуальной иерархии.
+/// Claude Dark Minimal: плоские карточки на surfaceContainerHigh,
+/// иконка напрямую (без градиентного кружка), без стрелки.
+/// Каскадная fade-анимация.
 class SuggestionChips extends StatefulWidget {
   const SuggestionChips({super.key, required this.onTap});
 
@@ -64,7 +63,7 @@ class _SuggestionChipsState extends State<SuggestionChips>
   }) {
     final scheme = Theme.of(context).colorScheme;
 
-    // Каскадная задержка: каждая карточка появляется через 150мс после предыдущей
+    // Каскадная задержка: fade-only, 150мс между чипами
     final delay = index * 0.15;
     final stagger = CurvedAnimation(
       parent: _controller,
@@ -75,56 +74,33 @@ class _SuggestionChipsState extends State<SuggestionChips>
       padding: const EdgeInsets.only(bottom: 10),
       child: FadeTransition(
         opacity: stagger,
-        child: SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0, 0.08),
-            end: Offset.zero,
-          ).animate(stagger),
-          child: Material(
-            color: scheme.surfaceContainerHigh,
-            borderRadius: BorderRadius.circular(18),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(18),
-              onTap: () => widget.onTap(text),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 6,
-                  vertical: 10,
-                ),
-                child: Row(
-                  children: [
-                    // Иконка в мягком градиентном кружке
-                    Container(
-                      width: 38,
-                      height: 38,
-                      decoration: BoxDecoration(
-                        gradient: AppTheme.brandGradientSoft(scheme),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(icon, size: 20, color: scheme.primary),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Text(
-                        text,
-                        style: TextStyle(
-                          color: scheme.onSurface,
-                          fontSize: 14.5,
-                          fontWeight: FontWeight.w500,
-                          height: 1.35,
-                        ),
+        child: Material(
+          color: scheme.surfaceContainerHigh,
+          borderRadius: BorderRadius.circular(16),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: () => widget.onTap(text),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
+              ),
+              child: Row(
+                children: [
+                  Icon(icon, size: 20, color: scheme.primary),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        color: scheme.onSurface,
+                        fontSize: 14.5,
+                        fontWeight: FontWeight.w500,
+                        height: 1.35,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 4),
-                      child: Icon(
-                        Icons.arrow_forward_rounded,
-                        size: 18,
-                        color: scheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

@@ -5,14 +5,12 @@ import 'package:flutter_app_skeleton/state/chat_store.dart';
 import 'package:flutter_app_skeleton/widgets/chat_composer.dart';
 import 'package:flutter_app_skeleton/widgets/conversations_drawer.dart';
 import 'package:flutter_app_skeleton/widgets/message_list_view.dart';
-import 'package:flutter_app_skeleton/widgets/tai_logo.dart';
 import 'package:flutter_app_skeleton/widgets/welcome_state.dart';
 
 /// Главный экран приложения: AppBar, список сообщений и поле ввода.
 ///
-/// Пересборки при стриминге ограничены только списком сообщений и
-/// композитором (scoped [ListenableBuilder]), AppBar остаётся статичным.
-/// При прокрутке вверх появляется FAB для быстрого возврата вниз.
+/// Claude Dark Minimal: AppBar — просто текст «Tai» без логотипа.
+/// Scoped [ListenableBuilder] для эффективности при стриминге.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
@@ -50,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  /// Автопрокрутка к нижнему краю при новом сообщении / токене стрима.
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_scrollController.hasClients) return;
@@ -62,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  /// Показываем / скрываем FAB «вниз» в зависимости от позиции скролла.
   void _onScroll() {
     final showFab =
         _scrollController.hasClients && _scrollController.offset > 200;
@@ -83,11 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       drawer: ConversationsDrawer(store: _store),
       appBar: AppBar(
-        // AppBar статичен — не пересобирается при стриминге
         titleSpacing: 16,
-        title: const Row(
-          children: [TaiLogo(size: 34), SizedBox(width: 12), Text('Tai')],
-        ),
+        title: const Text('Tai'),
         actions: [
           IconButton(
             onPressed: _store.newConversation,
@@ -108,10 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Stack(
         children: [
-          // Основной контент
           Column(
             children: [
-              // Область сообщений / welcome — пересобирается при изменениях store
               Expanded(
                 child: ListenableBuilder(
                   listenable: _store,
@@ -127,7 +118,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              // Композитор — пересобирается только для isGenerating
               ListenableBuilder(
                 listenable: _store,
                 builder: (context, _) {
@@ -140,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          // FAB «прокрутить вниз» — появляется при скролле вверх
+          // FAB «вниз» — плоский, без тени
           if (_showScrollFab)
             Positioned(
               bottom: 76,
@@ -159,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
                 child: Material(
-                  elevation: 3,
+                  elevation: 0,
                   shape: const CircleBorder(),
                   color: scheme.surfaceContainerHigh,
                   child: InkWell(

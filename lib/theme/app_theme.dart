@@ -1,39 +1,56 @@
 import 'package:flutter/material.dart';
 
-/// Тема приложения в духе Material You 3 Expressive.
+/// Claude Dark Minimal — дизайн-система Tai.
 ///
-/// Использует единственный seed-цвет, из которого строится вся цветовая
-/// палитра для светлой и тёмной схемы. Кастомная типографическая шкала,
-/// расширенная палитра компонент и брендовые градиенты создают
-/// «выразительный» современный вид.
+/// Ультратёмная палитра, тёплый медно-янтарный акцент, плоские компоненты
+/// без границ, градиентов и теней. Разделение слоёв — только через
+/// контраст фоновых цветов.
 class AppTheme {
   const AppTheme._();
 
-  /// Брендовый seed-цвет — тёплый фиолетово-индиго.
-  ///
-  /// Выбран как более тёплый и узнаваемый, чем стандартный Material indigo.
-  /// `fromSeed` построит из него полную тональную палитру.
-  static const Color seed = Color(0xFF6C5CE7);
+  /// Тёплый медно-янтарный seed — единственный цвет-источник для акцентов.
+  static const Color seed = Color(0xFFD4854A);
 
   static ThemeData light() => _build(Brightness.light);
   static ThemeData dark() => _build(Brightness.dark);
 
   static ThemeData _build(Brightness brightness) {
-    final scheme = ColorScheme.fromSeed(
+    final base = ColorScheme.fromSeed(
       seedColor: seed,
       brightness: brightness,
+    );
+
+    final isDark = brightness == Brightness.dark;
+
+    // Claude-стиль: нейтральные серые поверхности, тёплый акцент.
+    final surface = isDark ? const Color(0xFF1A1A1A) : const Color(0xFFFFFFFF);
+    final surfaceContainer =
+        isDark ? const Color(0xFF1F1F1F) : const Color(0xFFF0F0F0);
+    final surfaceContainerHigh =
+        isDark ? const Color(0xFF242424) : const Color(0xFFE8E8E8);
+    final surfaceContainerHighest =
+        isDark ? const Color(0xFF2E2E2E) : const Color(0xFFD5D5D5);
+
+    final scheme = base.copyWith(
+      surface: surface,
+      surfaceContainerLow: surfaceContainer,
+      surfaceContainer: surfaceContainer,
+      surfaceContainerHigh: surfaceContainerHigh,
+      surfaceContainerHighest: surfaceContainerHighest,
     );
 
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
       textTheme: _textTheme(scheme),
-      scaffoldBackgroundColor: scheme.surface,
+      scaffoldBackgroundColor:
+          isDark ? const Color(0xFF0D0D0D) : const Color(0xFFF5F5F5),
       visualDensity: VisualDensity.standard,
 
       // ── AppBar ──────────────────────────────────────────────
       appBarTheme: AppBarTheme(
-        backgroundColor: scheme.surface,
+        backgroundColor:
+            isDark ? const Color(0xFF0D0D0D) : const Color(0xFFF5F5F5),
         foregroundColor: scheme.onSurface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
@@ -43,7 +60,7 @@ class AppTheme {
         titleTextStyle: TextStyle(
           color: scheme.onSurface,
           fontSize: 22,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
           height: 1.2,
           letterSpacing: -0.3,
         ),
@@ -52,7 +69,7 @@ class AppTheme {
       // ── Input ───────────────────────────────────────────────
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: scheme.surfaceContainerHigh,
+        fillColor: surfaceContainerHigh,
         hintStyle: TextStyle(
           color: scheme.onSurfaceVariant.withValues(alpha: 0.7),
           fontSize: 15,
@@ -63,22 +80,22 @@ class AppTheme {
           vertical: 14,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(24),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(24),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(24),
           borderSide: BorderSide.none,
         ),
       ),
 
       // ── Divider ─────────────────────────────────────────────
       dividerTheme: DividerThemeData(
-        color: scheme.outlineVariant.withValues(alpha: 0.5),
+        color: scheme.outlineVariant.withValues(alpha: 0.4),
         space: 1,
       ),
 
@@ -86,23 +103,23 @@ class AppTheme {
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(16),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          textStyle: const TextStyle(fontWeight: FontWeight.w600),
+          textStyle: const TextStyle(fontWeight: FontWeight.w500),
         ),
       ),
 
       // ── Chip ────────────────────────────────────────────────
       chipTheme: ChipThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
 
       // ── Card ────────────────────────────────────────────────
       cardTheme: CardThemeData(
         elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: scheme.surfaceContainerLow,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        color: surface,
       ),
 
       // ── Icon Button ─────────────────────────────────────────
@@ -130,24 +147,26 @@ class AppTheme {
 
       // ── Drawer ──────────────────────────────────────────────
       drawerTheme: DrawerThemeData(
-        backgroundColor: scheme.surface,
+        backgroundColor: surface,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.horizontal(left: Radius.circular(28)),
         ),
-        width: 300,
+        width: 280,
       ),
 
       // ── FAB ─────────────────────────────────────────────────
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        elevation: 3,
+        shape: const CircleBorder(),
+        elevation: 0,
         highlightElevation: 0,
+        backgroundColor: surfaceContainerHigh,
       ),
 
       // ── SnackBar ────────────────────────────────────────────
       snackBarTheme: SnackBarThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         behavior: SnackBarBehavior.floating,
+        backgroundColor: surfaceContainerHigh,
       ),
 
       // ── Bottom Sheet ────────────────────────────────────────
@@ -155,15 +174,15 @@ class AppTheme {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
         ),
-        backgroundColor: scheme.surfaceContainerLow,
+        backgroundColor: surface,
       ),
     );
   }
 
-  /// Кастомная типографическая шкала Material 3.
+  /// Типографическая шкала: Inter-подобный sans-serif.
   ///
-  /// Заголовки используют weight 600 и negative letter-spacing для плотного,
-  /// уверенного вида. Body-текст чуть просторнее для читаемости.
+  /// Заголовки — weight 600, negative letter-spacing для плотного вида.
+  /// Body — weight 400, просторный line-height для читаемости.
   static TextTheme _textTheme(ColorScheme scheme) {
     return const TextTheme(
       displayLarge: TextStyle(
@@ -181,6 +200,7 @@ class AppTheme {
         fontSize: 36,
         fontWeight: FontWeight.w500,
         height: 1.22,
+        letterSpacing: -0.2,
       ),
       headlineLarge: TextStyle(
         fontSize: 32,
@@ -203,6 +223,7 @@ class AppTheme {
         fontSize: 22,
         fontWeight: FontWeight.w600,
         height: 1.27,
+        letterSpacing: -0.3,
       ),
       titleMedium: TextStyle(
         fontSize: 16,
@@ -254,22 +275,4 @@ class AppTheme {
       ),
     ).apply(bodyColor: scheme.onSurface, displayColor: scheme.onSurface);
   }
-
-  /// Градиент фирменного «огонька» Tai — используется для аватара ИИ и
-  /// активных элементов (кнопка отправки, акценты).
-  static LinearGradient brandGradient(ColorScheme scheme) => LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [scheme.primary, scheme.tertiary],
-      );
-
-  /// Мягкий градиент для фоновых акцентов (иконки, декоративные элементы).
-  static LinearGradient brandGradientSoft(ColorScheme scheme) => LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          scheme.primary.withValues(alpha: 0.12),
-          scheme.tertiary.withValues(alpha: 0.06),
-        ],
-      );
 }

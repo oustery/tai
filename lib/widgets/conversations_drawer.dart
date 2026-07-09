@@ -6,8 +6,8 @@ import 'package:flutter_app_skeleton/widgets/tai_logo.dart';
 
 /// Боковое меню: создание нового чата и список диалогов.
 ///
-/// Включает TaiLogo в хедере, полноширинную кнопку «Новый чат»,
-/// список диалогов с кастомными плитками и фирменный footer.
+/// Claude Dark Minimal: чистый surface, минимальный chrome,
+/// простой footer без декоративных точек.
 class ConversationsDrawer extends StatelessWidget {
   const ConversationsDrawer({super.key, required this.store});
 
@@ -57,11 +57,11 @@ class ConversationsDrawer extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            // Разделитель с отступами
+            // Разделитель
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Divider(
-                color: scheme.outlineVariant.withValues(alpha: 0.5),
+                color: scheme.outlineVariant.withValues(alpha: 0.4),
               ),
             ),
             // Список диалогов
@@ -106,27 +106,14 @@ class ConversationsDrawer extends StatelessWidget {
                 },
               ),
             ),
-            // Footer с фирменным акцентом
+            // Footer — просто текст
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
-              child: Row(
-                children: [
-                  Container(
-                    width: 6,
-                    height: 6,
-                    decoration: BoxDecoration(
-                      color: scheme.primary,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Tai · v0.2.0',
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      color: scheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
+              child: Text(
+                'Tai \u00b7 v0.2.0',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
               ),
             ),
           ],
@@ -156,7 +143,7 @@ class _ConversationTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Material(
-      color: selected ? scheme.secondaryContainer : Colors.transparent,
+      color: selected ? scheme.surfaceContainerHighest : Colors.transparent,
       borderRadius: BorderRadius.circular(14),
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
@@ -168,9 +155,7 @@ class _ConversationTile extends StatelessWidget {
               Icon(
                 Icons.chat_bubble_outline_rounded,
                 size: 20,
-                color: selected
-                    ? scheme.onSecondaryContainer
-                    : scheme.onSurfaceVariant,
+                color: selected ? scheme.onSurface : scheme.onSurfaceVariant,
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -181,9 +166,7 @@ class _ConversationTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: selected
-                          ? scheme.onSecondaryContainer
-                          : scheme.onSurface,
+                      color: scheme.onSurface,
                       fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
                     ),
                   ),
