@@ -258,18 +258,18 @@ class AppTheme {
   /// Градиент фирменного «огонька» Tai — используется для аватара ИИ и
   /// активных элементов (кнопка отправки, акценты).
   static LinearGradient brandGradient(ColorScheme scheme) => LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [scheme.primary, scheme.tertiary],
-  );
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [scheme.primary, scheme.tertiary],
+      );
 
   /// Мягкий градиент для фоновых акцентов (иконки, декоративные элементы).
   static LinearGradient brandGradientSoft(ColorScheme scheme) => LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      scheme.primary.withValues(alpha: 0.12),
-      scheme.tertiary.withValues(alpha: 0.06),
-    ],
-  );
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          scheme.primary.withValues(alpha: 0.12),
+          scheme.tertiary.withValues(alpha: 0.06),
+        ],
+      );
 }
